@@ -82,7 +82,6 @@
     <img src="https://media.tenor.com/HKZ0zXe3C6sAAAAM/cat-punch.gif" alt="NO GIF">
   </div>
 
-  <!-- This uses your FIXED Punch.mp3 -->
   <audio id="noAudio" loop preload="auto" playsinline>
     <source src="Punch.mp3" type="audio/mpeg">
   </audio>
@@ -94,7 +93,7 @@
   </div>
 
   <script>
-    // Unlock audio on first click (browser safety)
+    // Audio unlock for browsers
     document.addEventListener("click", () => {
       document.getElementById("yesAudio").load();
       document.getElementById("noAudio").load();
