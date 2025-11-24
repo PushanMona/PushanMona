@@ -43,14 +43,31 @@
       color: white;
     }
 
-    #yesGifContainer, #noGifContainer {
+    /* YES GIF */
+    #yesGifContainer {
       display: none;
       margin-top: 30px;
     }
 
-    #yesGifContainer img, #noGifContainer img {
+    #yesGifContainer img {
       width: 70%;
       max-width: 700px;
+      border-radius: 20px;
+    }
+
+    /* NO GIF — positioned in the center and above everything */
+    #noGifContainer {
+      display: none;
+      position: fixed;
+      top: 40%;             
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      pointer-events: none;    /* prevents blocking clicks */
+    }
+
+    #noGifContainer img {
+      width: 280px;
       border-radius: 20px;
     }
 
@@ -77,12 +94,12 @@
     </audio>
   </div>
 
-  <!-- NO GIF + AUDIO -->
+  <!-- NO GIF -->
   <div id="noGifContainer">
-    <img src="https://media.tenor.com/HKZ0zXe3C6sAAAAM/cat-punch.gif" alt="NO GIF">
+    <img src="Cat_punch.gif" alt="NO GIF">
   </div>
 
-  <!-- This uses your FIXED Punch.mp3 -->
+  <!-- NO SOUND -->
   <audio id="noAudio" loop preload="auto" playsinline>
     <source src="Punch.mp3" type="audio/mpeg">
   </audio>
@@ -94,7 +111,7 @@
   </div>
 
   <script>
-    // Unlock audio on first click (browser safety)
+    // Unlock audio on first click (browser requirement)
     document.addEventListener("click", () => {
       document.getElementById("yesAudio").load();
       document.getElementById("noAudio").load();
@@ -103,7 +120,7 @@
     let yesClicks = 0;
     const yesBtn = document.getElementById("yesBtn");
 
-    // YES BUTTON logic
+    // YES button logic
     yesBtn.addEventListener("click", () => {
       yesClicks++;
 
@@ -125,7 +142,7 @@
       }
     });
 
-    // NO BUTTON logic
+    // NO button logic
     document.getElementById("noBtn").addEventListener("click", () => {
       document.getElementById("mainText").textContent = "Fucking Liar!";
       document.getElementById("buttonRow").style.display = "none";
@@ -140,7 +157,7 @@
       }, 3000);
     });
 
-    // Birthday YES logic
+    // Birthday Yes button
     document.getElementById("birthdayYesBtn").addEventListener("click", () => {
       document.getElementById("noGifContainer").style.display = "none";
       document.getElementById("birthdayQuestion").style.display = "none";
