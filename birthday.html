@@ -43,31 +43,36 @@
       color: white;
     }
 
-    /* YES GIF */
     #yesGifContainer {
       display: none;
       margin-top: 30px;
     }
+
     #yesGifContainer img {
       width: 70%;
       max-width: 700px;
       border-radius: 20px;
     }
 
-    /* NO GIF */
+    /* FIXED NO GIF — stays in middle, always visible */
     #noGifContainer {
       display: none;
-      margin-top: 40px;
+      position: fixed;
+      top: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
     }
+
     #noGifContainer img {
       width: 70%;
-      max-width: 700px;
+      max-width: 450px;
       border-radius: 20px;
     }
 
     #birthdayQuestion {
       display: none;
-      margin-top: 30px;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -80,36 +85,41 @@
     <button class="btn no" id="noBtn">No</button>
   </div>
 
-  <!-- YES GIF + LOOP AUDIO -->
-  <div id="yesGifContainer" style="display:none; margin-top:30px;">
-    <img src="Untitled_Artwork.gif"
-         style="width:70%; max-width:700px; border-radius:20px;">
-
-    <audio id="yesAudio" loop>
+  <!-- YES GIF + AUDIO -->
+  <div id="yesGifContainer">
+    <img src="Untitled_Artwork.gif">
+    <audio id="yesAudio" loop preload="auto" playsinline>
       <source src="yippie.mp3" type="audio/mpeg">
     </audio>
   </div>
 
-  <!-- NO GIF + LOOP AUDIO -->
+  <!-- NO GIF (fixed) -->
   <div id="noGifContainer">
     <img src="https://media.tenor.com/HKZ0zXe3C6sAAAAM/cat-punch.gif" alt="NO GIF">
   </div>
 
-  <audio id="noAudio" loop>
+  <!-- NO SOUND (fixed mp3) -->
+  <audio id="noAudio" loop preload="auto" playsinline>
     <source src="Punch.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Birthday question -->
   <div id="birthdayQuestion">
-    <h2 style="color: #333;">Is it your birthday today!? ̸/̸̅̅ ̆̅ ̅̅ ̅̅ ̅̅</h2>
+    <h2 style="color: #333;">Is it your birthday today!? 🎂</h2>
     <button class="btn yes" id="birthdayYesBtn">Yes! Please don't shoot me!</button>
   </div>
 
   <script>
+    // Unlock audio on first click (browser requirement)
+    document.addEventListener("click", () => {
+      document.getElementById("yesAudio").load();
+      document.getElementById("noAudio").load();
+    }, { once: true });
+
     let yesClicks = 0;
     const yesBtn = document.getElementById("yesBtn");
 
-    // YES BUTTON logic
+    // YES button
     yesBtn.addEventListener("click", () => {
       yesClicks++;
 
@@ -122,40 +132,42 @@
       } else {
         document.getElementById("mainText").textContent = "🎉💗 Happy Birthday Shaxy! 💗🎉";
         document.getElementById("buttonRow").style.display = "none";
-        document.getElementById("noAudio").pause(); // stop NO sound if active
+
+        document.getElementById("noAudio").pause();
+        document.getElementById("noGifContainer").style.display = "none";
+
         document.getElementById("yesGifContainer").style.display = "block";
         document.getElementById("yesAudio").play();
       }
     });
 
-    // NO BUTTON logic
+    // NO button
     document.getElementById("noBtn").addEventListener("click", () => {
       document.getElementById("mainText").textContent = "Fucking Liar!";
       document.getElementById("buttonRow").style.display = "none";
-      document.getElementById("yesAudio").pause(); // stop YES sound if active
-      document.getElementById("noGifContainer").style.display = "block";
 
-      document.getElementById("noAudio").play(); // PLAY NO SOUND (looping)
+      document.getElementById("yesAudio").pause();
+
+      document.getElementById("noGifContainer").style.display = "block";
+      document.getElementById("noAudio").play();
 
       setTimeout(() => {
         document.getElementById("birthdayQuestion").style.display = "block";
       }, 3000);
     });
 
-    // Birthday YES → show YES GIF + LOOPING MUSIC
+    // Birthday Yes
     document.getElementById("birthdayYesBtn").addEventListener("click", () => {
       document.getElementById("noGifContainer").style.display = "none";
       document.getElementById("birthdayQuestion").style.display = "none";
 
-      document.getElementById("noAudio").pause(); // stop NO music
+      document.getElementById("noAudio").pause();
       document.getElementById("mainText").textContent = "🎉💗 Happy Birthday Shaxy! 💗🎉";
+
       document.getElementById("yesGifContainer").style.display = "block";
-      document.getElementById("yesAudio").play(); // loop YES music
+      document.getElementById("yesAudio").play();
     });
   </script>
 
 </body>
 </html>
-
-
-
