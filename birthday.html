@@ -43,12 +43,23 @@
       color: white;
     }
 
-    #yesGifContainer, #noGifContainer {
+    /* YES GIF */
+    #yesGifContainer {
       display: none;
       margin-top: 30px;
     }
+    #yesGifContainer img {
+      width: 70%;
+      max-width: 700px;
+      border-radius: 20px;
+    }
 
-    #yesGifContainer img, #noGifContainer img {
+    /* NO GIF */
+    #noGifContainer {
+      display: none;
+      margin-top: 40px;
+    }
+    #noGifContainer img {
       width: 70%;
       max-width: 700px;
       border-radius: 20px;
@@ -69,36 +80,32 @@
     <button class="btn no" id="noBtn">No</button>
   </div>
 
-  <!-- YES GIF + AUDIO -->
-  <div id="yesGifContainer">
-    <img src="Untitled_Artwork.gif">
-    <audio id="yesAudio" loop preload="auto" playsinline>
+  <!-- YES GIF + LOOP AUDIO -->
+  <div id="yesGifContainer" style="display:none; margin-top:30px;">
+    <img src="Untitled_Artwork.gif"
+         style="width:70%; max-width:700px; border-radius:20px;">
+
+    <audio id="yesAudio" loop>
       <source src="yippie.mp3" type="audio/mpeg">
     </audio>
   </div>
 
-  <!-- NO GIF + AUDIO -->
+  <!-- NO GIF + LOOP AUDIO -->
   <div id="noGifContainer">
-    <img src="https://media.tenor.com/HKZ0zXe3C6sAAAAM/cat-punch.gif" alt="NO GIF">
+    <img src="https://tenor.com/view/cat-cute-adorable-punch-gif-17822730.gif" alt="NO GIF">
   </div>
 
-  <audio id="noAudio" loop preload="auto" playsinline>
+  <audio id="noAudio" loop>
     <source src="Punch.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Birthday question -->
   <div id="birthdayQuestion">
-    <h2 style="color: #333;">Is it your birthday today!? 🎂</h2>
+    <h2 style="color: #333;">Is it your birthday today!? ̸/̸̅̅ ̆̅ ̅̅ ̅̅ ̅̅</h2>
     <button class="btn yes" id="birthdayYesBtn">Yes! Please don't shoot me!</button>
   </div>
 
   <script>
-    // Audio unlock for browsers
-    document.addEventListener("click", () => {
-      document.getElementById("yesAudio").load();
-      document.getElementById("noAudio").load();
-    }, { once: true });
-
     let yesClicks = 0;
     const yesBtn = document.getElementById("yesBtn");
 
@@ -115,10 +122,7 @@
       } else {
         document.getElementById("mainText").textContent = "🎉💗 Happy Birthday Shaxy! 💗🎉";
         document.getElementById("buttonRow").style.display = "none";
-
-        document.getElementById("noAudio").pause();
-        document.getElementById("noGifContainer").style.display = "none";
-
+        document.getElementById("noAudio").pause(); // stop NO sound if active
         document.getElementById("yesGifContainer").style.display = "block";
         document.getElementById("yesAudio").play();
       }
@@ -128,27 +132,25 @@
     document.getElementById("noBtn").addEventListener("click", () => {
       document.getElementById("mainText").textContent = "Fucking Liar!";
       document.getElementById("buttonRow").style.display = "none";
-
-      document.getElementById("yesAudio").pause();
-
+      document.getElementById("yesAudio").pause(); // stop YES sound if active
       document.getElementById("noGifContainer").style.display = "block";
-      document.getElementById("noAudio").play();
+
+      document.getElementById("noAudio").play(); // PLAY NO SOUND (looping)
 
       setTimeout(() => {
         document.getElementById("birthdayQuestion").style.display = "block";
       }, 3000);
     });
 
-    // Birthday YES logic
+    // Birthday YES → show YES GIF + LOOPING MUSIC
     document.getElementById("birthdayYesBtn").addEventListener("click", () => {
       document.getElementById("noGifContainer").style.display = "none";
       document.getElementById("birthdayQuestion").style.display = "none";
 
-      document.getElementById("noAudio").pause();
+      document.getElementById("noAudio").pause(); // stop NO music
       document.getElementById("mainText").textContent = "🎉💗 Happy Birthday Shaxy! 💗🎉";
-
       document.getElementById("yesGifContainer").style.display = "block";
-      document.getElementById("yesAudio").play();
+      document.getElementById("yesAudio").play(); // loop YES music
     });
   </script>
 
