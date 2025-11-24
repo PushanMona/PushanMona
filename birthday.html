@@ -48,32 +48,27 @@
       display: none;
       margin-top: 30px;
     }
-
     #yesGifContainer img {
       width: 70%;
       max-width: 700px;
       border-radius: 20px;
     }
 
-    /* NO GIF — positioned in the center and above everything */
+    /* NO GIF — Option B: directly under "Fucking Liar!" */
     #noGifContainer {
       display: none;
-      position: fixed;
-      top: 40%;             
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10000;
-      pointer-events: none;    /* prevents blocking clicks */
+      margin-top: 20px;
     }
-
     #noGifContainer img {
-      width: 280px;
+      width: 70%;
+      max-width: 450px;
       border-radius: 20px;
     }
 
+    /* Birthday question */
     #birthdayQuestion {
       display: none;
-      margin-top: 30px;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -86,7 +81,7 @@
     <button class="btn no" id="noBtn">No</button>
   </div>
 
-  <!-- YES GIF + AUDIO -->
+  <!-- YES GIF + YES AUDIO -->
   <div id="yesGifContainer">
     <img src="Untitled_Artwork.gif">
     <audio id="yesAudio" loop preload="auto" playsinline>
@@ -94,7 +89,7 @@
     </audio>
   </div>
 
-  <!-- NO GIF -->
+  <!-- NO GIF (Option B) -->
   <div id="noGifContainer">
     <img src="Cat_punch.gif" alt="NO GIF">
   </div>
@@ -111,16 +106,16 @@
   </div>
 
   <script>
-    // Unlock audio on first click (browser requirement)
+    /* Unlock audio for browsers */
     document.addEventListener("click", () => {
-      document.getElementById("yesAudio").load();
       document.getElementById("noAudio").load();
+      document.getElementById("yesAudio").load();
     }, { once: true });
 
     let yesClicks = 0;
     const yesBtn = document.getElementById("yesBtn");
 
-    // YES button logic
+    /* YES BUTTON */
     yesBtn.addEventListener("click", () => {
       yesClicks++;
 
@@ -142,22 +137,30 @@
       }
     });
 
-    // NO button logic
+    /* NO BUTTON */
     document.getElementById("noBtn").addEventListener("click", () => {
       document.getElementById("mainText").textContent = "Fucking Liar!";
       document.getElementById("buttonRow").style.display = "none";
 
       document.getElementById("yesAudio").pause();
 
+      // Show GIF directly under text
       document.getElementById("noGifContainer").style.display = "block";
-      document.getElementById("noAudio").play();
 
+      // Play NO audio (with forced restart)
+      const noAudio = document.getElementById("noAudio");
+      noAudio.pause();
+      noAudio.currentTime = 0;
+
+      noAudio.play().catch(e => console.log("Audio blocked:", e));
+
+      // Birthday question after 3s
       setTimeout(() => {
         document.getElementById("birthdayQuestion").style.display = "block";
       }, 3000);
     });
 
-    // Birthday Yes button
+    /* Birthday YES */
     document.getElementById("birthdayYesBtn").addEventListener("click", () => {
       document.getElementById("noGifContainer").style.display = "none";
       document.getElementById("birthdayQuestion").style.display = "none";
